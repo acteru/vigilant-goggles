@@ -1,5 +1,4 @@
 #!flask/bin/python
-import json
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import reqparse, Resource, Api
