@@ -12,3 +12,9 @@ cd <path>/vigilant-goolges
 virtualenv flaskapp
 pip install -r flaskapp/requirements.txt
 ```
+
+# Create db
+``` bash
+source <env>/bin/activate
+python model.py
+```

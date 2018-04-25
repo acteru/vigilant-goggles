@@ -2,4 +2,5 @@ pip-selfcheck.json
 bin
 include
 lib
+*.db
 __pycache__

@@ -1,55 +1,68 @@
 #!flask/bin/python
-from flask import Flask, request
+import json
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
 from flask_restful import reqparse, Resource, Api
-from db import *
-
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 api = Api(app)
 
 parser = reqparse.RequestParser()
 parser.add_argument('couvert_id')
 parser.add_argument('count')
 
+class Couvert_Table(db.Model):
+    __tablename__ = 'couvert_table'
+    id = db.Column('id', db.Integer, primary_key=True)
+    title = db.Column('title', db.String)
+    in_stock = db.Column('in_stock', db.Integer)
+    price = db.Column('price', db.Integer)
+
+    def __init__(self, id, title, in_stock, price):
+        self.id = id
+        self.title = title
+        self.in_stock = in_stock
+        self.price = price
 
 class CouvertsList(Resource):
     def get(self):
-        return couverts
-
-class OrderList(Resource):
-    def get(self):
-        return order
+        couverts = Couvert_Table.query.all()
+        output = []
+        for couvert in couverts:
+            data = {}
+            data['id'] = couvert.id
+            data['title'] = couvert.title
+            data['in_stock'] = couvert.in_stock
+            data['price'] = couvert.price
+            output.append(data)
+        return jsonify({'couverts': output})
 
 class Couvert(Resource):
     def get(self, id):
-        return couverts[id]
+        couvert = Couvert_Table.query.filter_by(id=id).first()
+        data = {}
+        data['id'] = couvert.id
+        data['title'] = couvert.title
+        data['in_stock'] = couvert.in_stock
+        data['price'] = couvert.price
+        return jsonify({'couvert': data})
+
+    def post(self):
+       pass
+
+    def update(self):
+       pass
 
     def delete(self, id):
        del couverts[id]
        return '', 204
 
-class Order(Resource):
-    def get(self):
-        return order
-    def post(self):
-        args = parser.parse_args()
-        print(order.keys)
-        order_id = int(max(order.keys())) +1
-        order[order_id] = {'couvert_id': args['couvert_id']}
-        order[order_id].update({'count': args['count']})
-        return order[order_id], 201
-
-    def delete(self, article_id):
-        del order[article_id]
-        return '', 204
-
-#routing couvert
+#routing
 api.add_resource(CouvertsList, '/couverts')
 api.add_resource(Couvert, '/couvert/<id>')
-
-#routing orders
-api.add_resource(OrderList, '/orders')
-api.add_resource(Order, '/order')
 
 if __name__ == '__main__':
     app.run(debug=True)

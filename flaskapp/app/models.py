@@ -1,27 +1,17 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Float, func
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+# create database and add some data
+from app import db
+from app import Couvert_Table
 
-Base = declarative_base()
+# create database
+db.create_all()
 
-class CommonColumns(Base):
-    __abstract__ = True
-    _created = Column(DateTime, default=func.now())
-    _updated = Column(DateTime, default=func.now(), onupdate=func.now())
+# data to add
+couvert_01 = Couvert_Table(0, 'A4-Couvert', 20, 3)
+couvert_02 = Couvert_Table(1, 'A3-Couvert', 20, 5)
+couvert_03 = Couvert_Table(2, 'A2-Couvert', 20, 6)
 
-class couverts(CommonColumns):
-    __tablename__ = 'couverts'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    title = Column(String(20))
-    description = Column(String(150))
-    in_stock = Column(Integer)
-    price = Column(Float)
-    orders = relationship("orders")
-
-class orders(CommonColumns):
-    __tablename__ = 'orders'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    couvert_id = Column(Integer, ForeignKey('couverts.id'), nullable=False)
-    couvert = relationship("couverts", back_populates='orders')
-    count = Column(Integer)
-
+# commit to database
+db.session.add(couvert_01)
+db.session.add(couvert_02)
+db.session.add(couvert_03)
+db.session.commit()
