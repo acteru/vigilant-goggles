@@ -9,10 +9,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 api = Api(app)
 
-parser = reqparse.RequestParser()
-parser.add_argument('couvert_id')
-parser.add_argument('count')
-
 class Couvert_Table(db.Model):
     __tablename__ = 'couvert_table'
     id = db.Column('id', db.Integer, primary_key=True)
@@ -48,16 +44,6 @@ class Couvert(Resource):
         data['in_stock'] = couvert.in_stock
         data['price'] = couvert.price
         return jsonify({'couvert': data})
-
-    def post(self):
-       pass
-
-    def update(self):
-       pass
-
-    def delete(self, id):
-       del couverts[id]
-       return '', 204
 
 #routing
 api.add_resource(CouvertsList, '/couverts')
