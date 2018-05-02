@@ -85,7 +85,7 @@ class OrdersList(Resource):
             except Exception:
                 raise BadRequest('Please specify couvert_id and amount...')
             #get couvert to calculate price:
-            couv= Couvert_Table.query.filter_by(id=couvert_id).first()
+            couvert = Couvert_Table.query.filter_by(id=couvert_id).first()
             data = {}
             data['couvert_id'] = couvert_id
             data['amount'] = amount
