@@ -18,7 +18,7 @@ pip install -r flaskapp/requirements.txt
 source <env>/bin/activate
 python model.py
 ```
-#Examples
+# Examples
 
 ## Query all Couverts
 ``` bash
