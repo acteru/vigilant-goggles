@@ -96,7 +96,7 @@ class OrdersList(Resource):
             response = jsonify(data)
             response.status_code = 201
             return response
-        raise BadRequest('Missing POST data') 
+        raise BadRequest('Missing POST data')
 
 class Order(Resource):
     def get(self, id):
@@ -112,10 +112,10 @@ class Order(Resource):
         try:
             order = Order_Table.query.filter_by(id=id).first()
         except Exception:
-                raise BadRequest('Order does not exist..') 
+            raise BadRequest('Order does not exist..')
         db.session.delete(order)
         db.session.commit()
-        return True, 204 
+        return True, 204
 
 #routing
 api.add_resource(CouvertsList, '/couverts')
