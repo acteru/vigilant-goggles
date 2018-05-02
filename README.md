@@ -19,6 +19,7 @@ source <env>/bin/activate
 python model.py
 ```
 # Examples
+try it out with httpie or curl
 
 ### Query all Couverts
 ``` bash
@@ -42,6 +43,6 @@ curl http://127.0.0.1:5000/orders
 ```
 ### Delete Order <id> 2
 ``` bash
-http DELETE http://127.0.0.1:5000/order/1
-curl -v -X DELETE http://127.0.0.1:5000/order/1
+http DELETE http://127.0.0.1:5000/order/2
+curl -v -X DELETE http://127.0.0.1:5000/order/2
 ```
